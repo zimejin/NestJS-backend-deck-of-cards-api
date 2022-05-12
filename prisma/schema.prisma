@@ -9,3 +9,24 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Deck {
+  deckId    Int     @id @default(autoincrement())
+  type      String
+  shuffled  Boolean
+  remaining Int?
+  cards     Card[]
+
+  @@map("decks")
+}
+
+model Card {
+  id         Int    @id @default(autoincrement())
+  value      String
+  suit       String
+  code       String
+  Deck       Deck?  @relation(fields: [deckDeckId], references: [deckId])
+  deckDeckId Int?
+
+  @@map("cards")
+}
