@@ -1,5 +1,6 @@
-import { Controller, Post } from "@nestjs/common";
+import { Body, Controller, Post } from "@nestjs/common";
 import { DeckOfCardsService } from "./deck-of-cards.service";
+import { CreateDeckDto } from "./dto";
 
 @Controller('api')
 export class DeckOfCardsController {
@@ -8,8 +9,8 @@ export class DeckOfCardsController {
 
     // Create a new Deck
     @Post('create-deck')
-    createDeck() {
-        return this.deckOfCardsService.createDeck();
+    createDeck(@Body() dto: CreateDeckDto) {
+        return this.deckOfCardsService.createDeck(dto);
     }
 
     // Open a Deck
