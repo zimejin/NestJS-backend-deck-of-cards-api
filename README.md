@@ -42,20 +42,49 @@ docker compose up dev-db -d
 Step 2 - Start the development server, By default NestJS will run on port: 3000
 npm run start:dev
 
-Step 3 - Create a deck
+Step 3 - Once the server is up and running you can start by creating a deck
+        Make a POST request using the DTO 
+        
+        {
+        type: FULL / SHORT
+        shuffled: true / false
+        }
 
-Make a post request using the DTO 
-type: FULL / SHORT
-shuffled: true / false
-http://localhost:3000/api/deck/create
+        CREATE ENDPOINT: http://localhost:3000/api/deck/create
 
-To Open a deck
-GET Request: http://localhost:3000/api/deck/19
+* Once your deck is created, you can open the deck using the generated deckId from the earlier step
 
-To draw from a deck, In the URL parameters include the deckId and the number of cards to draw
-PATCH Request: http://localhost:3000/api/deck/{{deckId}}?count={{count}}
+    GET Request: http://localhost:3000/api/deck/{{deckId}}
+    
+          Sample Response: 
+          {
+            "deckId": 21,
+            "type": "FULL",
+            "shuffled": false,
+            "remaining": 32,
+            "cards": [
+              {
+                "id": 417,
+                "value": "A",
+                "suit": "spades",
+                "code": "AS",
+                "cardDeckId": 21
+              }
+             ]
+          }
+    
+
+* To draw from a deck, In the URL parameters include the deckId and the number of cards to draw
+
+  PATCH Request: http://localhost:3000/api/deck/{{deckId}}?count={{count}}
+        
+  This operation will remove the cards from the top of the stack and return them, While updating the remaining cards and their count.
 
 ```
+
+## PROJECT LIMITATIONS
+ - Time contraints
+ - No prior knowledge of cards
 
 ## Test
 
