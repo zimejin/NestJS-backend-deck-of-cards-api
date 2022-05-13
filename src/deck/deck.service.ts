@@ -15,13 +15,10 @@ export class DeckService {
     async createDeck(@Body() dto: CreateDeckDto) {
         try {
             // Create a new Deck
-            let deck: Card[] = this.newDeck();
+            let deck: Card[] = this.createDeck_Helper();
             const shuffled = dto.shuffled.toLowerCase() == 'false' ? false : true;
             const deckSize = deck.length;
-
-            if (shuffled)
-                deck = this.shuffle(deck);
-
+            if (shuffled) deck = this.shuffle(deck);
             // Save the newly created deck to db
             const response = await this.prisma.deck.create({
                 data: {
@@ -33,7 +30,6 @@ export class DeckService {
                     }
                 }
             });
-
             return response;
         } catch (error) {
             if (error instanceof PrismaClientKnownRequestError) {
@@ -47,26 +43,21 @@ export class DeckService {
 
 
     // Open a Deck
-    async openDeck(deckId: number): Promise<Deck & {
-        cards: Card[];
-    }> {
+    async openDeck(deckId: number): Promise<Deck & { cards: Card[]; }> {
         try {
             const openDeck = await this.prisma.deck.findUnique({
-                where: {
-                    deckId: deckId,
-                },
-                include: {
-                    cards: true,
-                },
+                where: { deckId: deckId },
+                include: { cards: true },
             });
-
-            console.log({
-                opened: openDeck
-            })
-
+            // if deck does not exist throw exception
+            if (!openDeck) throw new ForbiddenException(`Cannot find deck with deckId ${deckId}`);
             return openDeck;
         } catch (error) {
-
+            if (error instanceof PrismaClientKnownRequestError) {
+                throw new ForbiddenException(error.message);
+            };
+            // if error not from prisma, throw the error
+            throw error;
         }
     }
 
@@ -82,24 +73,20 @@ export class DeckService {
             let location1 = Math.floor((Math.random() * deck.length));
             let location2 = Math.floor((Math.random() * deck.length));
             let tmp = deck[location1];
-
             deck[location1] = deck[location2];
             deck[location2] = tmp;
         }
-
         return deck;
     }
 
-    private newDeck() {
+    private createDeck_Helper() {
         let deck = new Array();
-
         for (let i = 0; i < suits.length; i++) {
             for (let x = 0; x < values.length; x++) {
                 let card = { value: values[x], suit: suits[i], code: `${values[0] + suits[i][0].toUpperCase()}` };
                 deck.push(card);
             }
         }
-
         return deck;
     }
 }

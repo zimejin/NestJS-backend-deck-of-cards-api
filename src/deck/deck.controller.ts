@@ -17,9 +17,6 @@ export class DeckController {
     // Open a Deck
     @Get(':id')
     openDeck(@Param('id', ParseIntPipe) deckId: number): Promise<Deck & { cards: Card[]; }> {
-        console.log({
-            deckId: deckId
-        })
         return this.deckOfCardsService.openDeck(deckId);
     }
 
