@@ -36,13 +36,25 @@ $ npm install
 
 ```bash
 # development
-$ npm run start
+Step 1 - Start the Database Container using Docker Compose
+docker compose up dev-db -d
 
-# watch mode
-$ npm run start:dev
+Step 2 - Start the development server, By default NestJS will run on port: 3000
+npm run start:dev
 
-# production mode
-$ npm run start:prod
+Step 3 - Create a deck
+
+Make a post request using the DTO 
+type: FULL / SHORT
+shuffled: true / false
+http://localhost:3000/api/deck/create
+
+To Open a deck
+GET Request: http://localhost:3000/api/deck/19
+
+To draw from a deck, In the URL parameters include the deckId and the number of cards to draw
+PATCH Request: http://localhost:3000/api/deck/{{deckId}}?count={{count}}
+
 ```
 
 ## Test
