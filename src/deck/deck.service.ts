@@ -67,30 +67,38 @@ export class DeckService {
             // Get the deck by id
             const deck = await this.prisma.deck.findUnique({
                 where: { deckId: deckId },
-                include: { cards: true },
+                select: {
+                    cards: true,
+                    remaining: true
+                }
+
             });
 
             // if deck does not exist throw exception
             if (!deck) throw new ForbiddenException(`Cannot find deck with deckId ${deckId}`);
 
             // Draw the cards from the top of the stack using the array method splice 
-            const drawnCards = { cards: deck.cards.splice(0, count) };
+            const drawn = { cards: deck.cards.splice(0, count) };
             const _count = deck.cards.length;
+            const _deck = deck.cards.map((card) => ({ value: card.value, suit: card.suit, code: card.code }));
 
             // Update the db with changes
             const updated = await this.prisma.deck.update({
+                where: { deckId: deckId },
                 data: {
                     remaining: _count,
                     cards: {
-                        set: [...deck.cards],
+                        set: [],
+                        createMany: {
+                            data: [..._deck]
+                        }
                     }
-                },
-                where: { deckId: deckId },
+                }
             });
 
             if (!updated) throw new ForbiddenException(`Update failed`);
+            return { ...updated, ...drawn };
 
-            return drawnCards;
         } catch (error) {
             if (error instanceof PrismaClientKnownRequestError) {
                 throw new ForbiddenException(error.message);

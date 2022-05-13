@@ -84,7 +84,7 @@ Step 3 - Once the server is up and running you can start by creating a deck
 
 ## PROJECT CHALLENGES
  - Time contraints due to work
- - No prior knowledge of cards
+ - No domain knowledge of cards games
  - First time working with Prisma
 
 ## Test
