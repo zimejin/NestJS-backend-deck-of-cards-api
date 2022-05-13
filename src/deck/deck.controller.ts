@@ -1,20 +1,27 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseIntPipe, Post } from "@nestjs/common";
+import { Deck, Card } from "@prisma/client";
 import { DeckService } from "./deck.service";
 import { CreateDeckDto } from "./dto";
 
-@Controller('api')
+@Controller('api/deck')
 export class DeckController {
 
     constructor(private deckOfCardsService: DeckService) { }
 
     // Create a new Deck
-    @Post('create-deck')
-    createDeck(@Body() dto: CreateDeckDto) {
+    @Post('create')
+    createDeck(@Body() dto: CreateDeckDto): Promise<Deck> {
         return this.deckOfCardsService.createDeck(dto);
     }
 
     // Open a Deck
-    openDeck() { }
+    @Get(':id')
+    openDeck(@Param('id', ParseIntPipe) deckId: number): Promise<Deck & { cards: Card[]; }> {
+        console.log({
+            deckId: deckId
+        })
+        return this.deckOfCardsService.openDeck(deckId);
+    }
 
     // Draw a Card 
     drawCard() { }

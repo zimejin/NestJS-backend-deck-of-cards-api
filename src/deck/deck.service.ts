@@ -2,7 +2,7 @@ import { Body, ForbiddenException, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { CreateDeckDto } from "./dto";
-import { Card } from "@prisma/client";
+import { Card, Deck } from "@prisma/client";
 
 // Global variables
 const suits = ["spades", "diamonds", "clubs", "hearts"];
@@ -47,8 +47,27 @@ export class DeckService {
 
 
     // Open a Deck
-    openDeck() {
+    async openDeck(deckId: number): Promise<Deck & {
+        cards: Card[];
+    }> {
+        try {
+            const openDeck = await this.prisma.deck.findUnique({
+                where: {
+                    deckId: deckId,
+                },
+                include: {
+                    cards: true,
+                },
+            });
 
+            console.log({
+                opened: openDeck
+            })
+
+            return openDeck;
+        } catch (error) {
+
+        }
     }
 
     // Draw a Card 
