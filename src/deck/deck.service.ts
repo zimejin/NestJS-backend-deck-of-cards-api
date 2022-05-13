@@ -4,6 +4,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { CreateDeckDto } from "./dto";
 import { Card } from "@prisma/client";
 
+// Global variables
 const suits = ["spades", "diamonds", "clubs", "hearts"];
 const values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 @Injectable({})
@@ -15,13 +16,17 @@ export class DeckService {
         try {
             // Create a new Deck
             let deck: Card[] = this.newDeck();
+            const shuffled = dto.shuffled.toLowerCase() == 'false' ? false : true;
+            const deckSize = deck.length;
+
+            if (shuffled)
+                deck = this.shuffle(deck);
 
             console.log({
                 deck: deck
             })
 
-            const shuffled = dto.shuffled == 'false' ? false : true;
-            const deckSize = deck.length;
+            // Save the newly created deck to db
             const response = await this.prisma.deck.create({
                 data: {
                     type: dto.type,
@@ -32,7 +37,6 @@ export class DeckService {
 
             return response;
         } catch (error) {
-            console.log(error);
             if (error instanceof PrismaClientKnownRequestError) {
                 throw new ForbiddenException(error.message);
             };
