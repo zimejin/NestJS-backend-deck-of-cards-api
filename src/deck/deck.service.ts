@@ -62,7 +62,7 @@ export class DeckService {
     }
 
     // Draw a Card 
-    async drawCard(deckId: number, count: number = 50) {
+    async drawCard(deckId: number, count: number) {
         try {
             // Get the deck by id
             const deck = await this.prisma.deck.findUnique({
@@ -75,6 +75,7 @@ export class DeckService {
 
             const drawnCards = { cards: deck.cards.splice(0, count) };
             const _count = deck.cards.length;
+            const remainingCards = deck.cards;
 
             // Update the db with changes
             const transaction = await this.prisma.deck.update({
@@ -83,19 +84,15 @@ export class DeckService {
                 },
                 data: {
                     remaining: _count,
-                    // cards: {
-                    //     create: deck.cards
-                    // }
+                    cards: {
+                        set: remainingCards
+                    }
+
                 },
             });
 
-            console.log({
-                transaction_response: transaction
-            })
-
             return drawnCards;
         } catch (error) {
-            console.log(error)
             if (error instanceof PrismaClientKnownRequestError) {
                 throw new ForbiddenException(error.message);
             };
