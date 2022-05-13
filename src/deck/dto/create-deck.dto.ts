@@ -6,5 +6,5 @@ export class CreateDeckDto {
     "type": string;
 
     @IsNotEmpty()
-    "shuffled": boolean;
+    "shuffled": string;
 }

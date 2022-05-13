@@ -1,11 +1,11 @@
 import { Body, Controller, Post } from "@nestjs/common";
-import { DeckOfCardsService } from "./deck-of-cards.service";
+import { DeckService } from "./deck.service";
 import { CreateDeckDto } from "./dto";
 
 @Controller('api')
-export class DeckOfCardsController {
+export class DeckController {
 
-    constructor(private deckOfCardsService: DeckOfCardsService) { }
+    constructor(private deckOfCardsService: DeckService) { }
 
     // Create a new Deck
     @Post('create-deck')
