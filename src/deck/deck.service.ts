@@ -62,7 +62,47 @@ export class DeckService {
     }
 
     // Draw a Card 
-    drawCard() { }
+    async drawCard(deckId: number, count: number = 50) {
+        try {
+            // Get the deck by id
+            const deck = await this.prisma.deck.findUnique({
+                where: { deckId: deckId },
+                include: { cards: true },
+            });
+
+            // if deck does not exist throw exception
+            if (!deck) throw new ForbiddenException(`Cannot find deck with deckId ${deckId}`);
+
+            const drawnCards = { cards: deck.cards.splice(0, count) };
+            const _count = deck.cards.length;
+
+            // Update the db with changes
+            const transaction = await this.prisma.deck.update({
+                where: {
+                    deckId: deckId,
+                },
+                data: {
+                    remaining: _count,
+                    // cards: {
+                    //     create: deck.cards
+                    // }
+                },
+            });
+
+            console.log({
+                transaction_response: transaction
+            })
+
+            return drawnCards;
+        } catch (error) {
+            console.log(error)
+            if (error instanceof PrismaClientKnownRequestError) {
+                throw new ForbiddenException(error.message);
+            };
+            // if error not from prisma, throw the error
+            throw error;
+        }
+    }
 
 
 

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post } from "@nestjs/common";
 import { Deck, Card } from "@prisma/client";
 import { DeckService } from "./deck.service";
 import { CreateDeckDto } from "./dto";
@@ -21,5 +21,8 @@ export class DeckController {
     }
 
     // Draw a Card 
-    drawCard() { }
+    @Patch(':id')
+    drawCard(@Param('id', ParseIntPipe) deckId: number, count: number) {
+        return this.deckOfCardsService.drawCard(deckId, count);
+    }
 }
