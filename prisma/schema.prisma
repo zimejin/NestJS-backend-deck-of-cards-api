@@ -21,12 +21,13 @@ model Deck {
 }
 
 model Card {
-  id         Int    @id @default(autoincrement())
-  value      String
-  suit       String
-  code       String
-  Deck       Deck?  @relation(fields: [deckDeckId], references: [deckId])
-  deckDeckId Int?
+  id    Int    @id @default(autoincrement())
+  value String
+  suit  String
+  code  String
+
+  cardDeckId Int?
+  deck       Deck? @relation(fields: [cardDeckId], references: [deckId])
 
   @@map("cards")
 }

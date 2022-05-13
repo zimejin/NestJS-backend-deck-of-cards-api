@@ -22,16 +22,15 @@ export class DeckService {
             if (shuffled)
                 deck = this.shuffle(deck);
 
-            console.log({
-                deck: deck
-            })
-
             // Save the newly created deck to db
             const response = await this.prisma.deck.create({
                 data: {
                     type: dto.type,
                     shuffled: shuffled,
                     remaining: deckSize,
+                    cards: {
+                        create: deck
+                    }
                 }
             });
 
@@ -48,7 +47,9 @@ export class DeckService {
 
 
     // Open a Deck
-    openDeck() { }
+    openDeck() {
+
+    }
 
     // Draw a Card 
     drawCard() { }
