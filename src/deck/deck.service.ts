@@ -49,8 +49,6 @@ export class DeckService {
         }
     };
 
-
-
     // Open a Deck
     async openDeck(deckId: number): Promise<Deck & { cards: Card[]; }> {
         try {
@@ -80,7 +78,6 @@ export class DeckService {
                     cards: true,
                     remaining: true
                 }
-
             });
 
             // if deck does not exist throw exception
@@ -116,8 +113,6 @@ export class DeckService {
             throw error;
         }
     }
-
-
 
     private shuffle(deck: any) {
         // for 1000 turns
