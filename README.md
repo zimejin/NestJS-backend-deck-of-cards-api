@@ -71,14 +71,9 @@ yarn start:dev // start api in dev mode
 ```
 
 ### To draw from a deck, In the URL parameters include the deckId and the number of cards to draw
-
-```javascript
-  // PATCH Request: http://localhost:3000/api/deck/{{deckId}}?count={{count}}
-        
- // This operation will remove the cards from the top of the stack and return them, 
- // While updating the remaining cards and their count.
-
-```
+#PATCH Request: http://localhost:3000/api/deck/{{deckId}}?count={{count}}
+ - This operation will remove the cards from the top of the stack and return them, 
+ - While updating the remaining cards and their count.
 
 ## PROJECT CHALLENGES
  - Time contraints due to work
