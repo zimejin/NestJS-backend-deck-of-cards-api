@@ -31,13 +31,8 @@
 ```bash
 $ npm install
 ```
-
-## Running the app
-
-```bash
 ### Run the API in development mode
 ```javascript
-yarn // install
 yarn db:dev:restart // start postgres in docker and push migrations
 yarn start:dev // start api in dev mode
 ```
@@ -50,15 +45,15 @@ yarn start:dev // start api in dev mode
           shuffled: true / false
         }
         
-        ENDPOINT: http://localhost:3000/api/deck/create
+        // ENDPOINT: http://localhost:3000/api/deck/create
 
 ```
 
 ### Once your deck is created, you can open the deck using the generated deckId from the earlier step
 ```javascript
-    GET Request: http://localhost:3000/api/deck/{{deckId}}
+    // GET Request: http://localhost:3000/api/deck/{{deckId}}
     
-          Sample Response: 
+          // Sample Response:
           {
             "deckId": 21,
             "type": "FULL",
@@ -80,9 +75,10 @@ yarn start:dev // start api in dev mode
 ### To draw from a deck, In the URL parameters include the deckId and the number of cards to draw
 
 ```javascript
-  PATCH Request: http://localhost:3000/api/deck/{{deckId}}?count={{count}}
+  // PATCH Request: http://localhost:3000/api/deck/{{deckId}}?count={{count}}
         
-  This operation will remove the cards from the top of the stack and return them, While updating the remaining cards and their count.
+ // This operation will remove the cards from the top of the stack and return them, 
+ // While updating the remaining cards and their count.
 
 ```
 
