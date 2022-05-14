@@ -39,38 +39,36 @@ yarn start:dev // start api in dev mode
 
 ### Once the server is up and running you can start by creating a deck
 ```javascript
-         // Make a POST request to create a new deck using the DTO
-        {
-          type: FULL / SHORT
-          shuffled: true / false
-        }
+// Make a POST request to create a new deck using the DTO
+{
+  type: string
+  shuffled: boolean
+}
         
-        // ENDPOINT: http://localhost:3000/api/deck/create
+// CREATE-DECK-ENDPOINT: http://localhost:3000/api/deck/create
 
 ```
 
 ### Once your deck is created, you can open the deck using the generated deckId from the earlier step
 ```javascript
-    // GET Request: http://localhost:3000/api/deck/{{deckId}}
-    
-          // Sample Response:
-          {
-            "deckId": 21,
-            "type": "FULL",
-            "shuffled": false,
-            "remaining": 32,
-            "cards": [
-              {
-                "id": 417,
-                "value": "A",
-                "suit": "spades",
-                "code": "AS",
-                "cardDeckId": 21
-              }
-             ]
-          }
+// Method:GET Request: http://localhost:3000/api/deck/{{deckId}}
+// Sample Response:
+{
+  "deckId": 21,
+  "type": "FULL",
+  "shuffled": false,
+  "remaining": 32,
+  "cards": [
+    {
+      "id": 417,
+      "value": "A",
+      "suit": "spades",
+      "code": "AS",
+      "cardDeckId": 21
+    }
+  ]
+}
 ```
-    
 
 ### To draw from a deck, In the URL parameters include the deckId and the number of cards to draw
 
