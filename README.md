@@ -38,8 +38,8 @@ yarn start:dev // start api in dev mode
 ```
 
 ### Once the server is up and running you can start by creating a deck
+- Make a POST request to create a new deck using the DTO
 ```javascript
-// Make a POST request to create a new deck using the DTO
 {
   type: string
   shuffled: boolean
@@ -50,8 +50,8 @@ yarn start:dev // start api in dev mode
 ```
 
 ### Once your deck is created, you can open the deck using the generated deckId from the earlier step
+- Method:GET Request: http://localhost:3000/api/deck/{{deckId}}
 ```javascript
-// Method:GET Request: http://localhost:3000/api/deck/{{deckId}}
 // Sample Response:
 {
   "deckId": 21,
