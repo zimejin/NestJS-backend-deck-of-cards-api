@@ -16,8 +16,17 @@ export class DeckService {
         try {
             // Create a new Deck
             let deck: Card[] = this.createDeck_Helper();
-            const shuffled = dto.shuffled.toLowerCase() == 'false' ? false : true;
+            let shuffled: boolean;
             const deckSize = deck.length;
+
+            if (typeof dto.shuffled == 'string') {
+                shuffled = dto.shuffled.toLowerCase() == 'false' ? false : true;
+            };
+
+            if (typeof dto.shuffled == 'boolean') {
+                shuffled = dto.shuffled;
+            };
+
             if (shuffled) deck = this.shuffle(deck);
             // Save the newly created deck to db
             const response = await this.prisma.deck.create({
