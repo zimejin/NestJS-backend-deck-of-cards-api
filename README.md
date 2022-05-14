@@ -35,25 +35,27 @@ $ npm install
 ## Running the app
 
 ```bash
-# development
-Step 1 - Start the Database Container using Docker Compose
-docker compose up dev-db -d
+### Run the API in development mode
+```javascript
+yarn // install
+yarn db:dev:restart // start postgres in docker and push migrations
+yarn start:dev // start api in dev mode
+```
 
-Step 2 - Start the development server, By default NestJS will run on port: 3000
-npm run start:dev
-
-Step 3 - Once the server is up and running you can start by creating a deck
-        Make a POST request using the DTO 
-        
+### Once the server is up and running you can start by creating a deck
+```javascript
+         // Make a POST request to create a new deck using the DTO
         {
-        type: FULL / SHORT
-        shuffled: true / false
+          type: FULL / SHORT
+          shuffled: true / false
         }
+        
+        ENDPOINT: http://localhost:3000/api/deck/create
 
-        CREATE ENDPOINT: http://localhost:3000/api/deck/create
+```
 
-* Once your deck is created, you can open the deck using the generated deckId from the earlier step
-
+### Once your deck is created, you can open the deck using the generated deckId from the earlier step
+```javascript
     GET Request: http://localhost:3000/api/deck/{{deckId}}
     
           Sample Response: 
@@ -72,10 +74,12 @@ Step 3 - Once the server is up and running you can start by creating a deck
               }
              ]
           }
+```
     
 
-* To draw from a deck, In the URL parameters include the deckId and the number of cards to draw
+### To draw from a deck, In the URL parameters include the deckId and the number of cards to draw
 
+```javascript
   PATCH Request: http://localhost:3000/api/deck/{{deckId}}?count={{count}}
         
   This operation will remove the cards from the top of the stack and return them, While updating the remaining cards and their count.
